@@ -1,0 +1,57 @@
+
+:host {
+  display: block;
+  > .file-list__item {
+    height: 72px;
+    display: flex;
+    padding: 0px 16px;
+    overflow: hidden;
+    flex-flow: row nowrap;
+    &:last-child {
+      > .file-list__content {
+        border-bottom: none;
+      }
+    }
+    > .file-list__icon {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      margin-right: 8px;
+      justify-content: center;
+      > tcs-svg-icon {
+        font-size: 40px;
+      }
+      & + .file-list__content {
+        padding-left: 8px;
+      }
+    }
+    > .file-list__content {
+      flex: 1 1 auto;
+      display: flex;
+      overflow: hidden;
+      flex-flow: column nowrap;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      justify-content: center;
+      > p {
+        color: rgba($color: #000000, $alpha: 0.54);
+        margin: 0;
+        height: 20px;
+        font-size: 0.8rem;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: flex-end;
+        > .file-list__mtime {
+          flex: 1 1 auto;
+        }
+      }
+      > h2 {
+        color: rgba($color: #000000, $alpha: 0.87);
+        margin: 0;
+        font-size: 1rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

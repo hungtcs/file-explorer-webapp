@@ -1,0 +1,9 @@
+@import "../../../../../styles/elevation/elevation";
+
+:host {
+  color: #FFF;
+  z-index: 4;
+  display: block;
+  background-color: #6200ee;
+  @include elevation(4);
+}

@@ -1,0 +1,14 @@
+<ng-container *ngFor="let fileCarte of fileCartes;">
+  <section class="file-list__item" (click)="fileClick.emit(fileCarte);">
+    <div class="file-list__icon">
+      <tcs-svg-icon name="{{ getImageType(fileCarte) }}"></tcs-svg-icon>
+    </div>
+    <div class="file-list__content">
+      <h2>{{ fileCarte.name }}</h2>
+      <p>
+        <span class="file-list__mtime">{{ getFormattedString(fileCarte.stat.mtimeMs) }}</span>
+        <span *ngIf="fileCarte.directory" class="file-list__count">{{ fileCarte.filesCount }}个项目</span>
+      </p>
+    </div>
+  </section>
+</ng-container>

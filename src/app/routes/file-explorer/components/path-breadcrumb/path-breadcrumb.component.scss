@@ -1,0 +1,66 @@
+
+:host {
+  display: block;
+  z-index: 2;
+  padding: 0px 24px;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  > .fe-path-breadcrumb__container {
+    overflow: visible;
+    > .fe-path-breadcrumb__wrapper {
+      height: 2rem;
+      overflow: hidden;
+      display: inline-flex;
+      min-width: 100%;
+      flex-flow: row nowrap;
+      transition: transform 300ms ease-in;
+      &.fe-path-breadcrumb__wrapper--disable-animation {
+        transition: none;
+      }
+      > .fe-path-breadcrumb__section {
+        flex: 0 0 auto;
+        color: rgba($color: #000000, $alpha: 0.87);
+        display: inline-flex;
+        font-size: 14px;
+        flex-flow: row nowrap;
+        align-items: center;
+        letter-spacing: 0.25;
+        > .fe-path-breadcrumb__arrow {
+          color: rgba($color: #000000, $alpha: 0.54);
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+  > .fe-path-breadcrumb__tarsus {
+    position: absolute;
+    top: 0px;
+    width: 24px;
+    bottom: 0px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    &.fe-path-breadcrumb__tarsus--left {
+      left: 0px;
+      background: linear-gradient(to right , rgba(255, 255, 255, 1), rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1));
+      justify-content: flex-start;
+    }
+    &.fe-path-breadcrumb__tarsus--right {
+      right: 0px;
+      background: linear-gradient(to left , rgba(255, 255, 255, 1), rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1));
+      justify-content: flex-end;
+    }
+    > .fe-path-breadcrumb__tarsus__arrow {
+      color: rgba($color: #000000, $alpha: 0.54);
+      opacity: 0;
+      font-size: 1rem;
+      transition: opacity 300ms ease-in-out;
+      &.fe-path-breadcrumb__tarsus__arrow--visible {
+        opacity: 1;
+      }
+    }
+  }
+}

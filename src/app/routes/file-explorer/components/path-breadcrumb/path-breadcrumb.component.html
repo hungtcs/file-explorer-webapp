@@ -1,0 +1,23 @@
+<div #container class="fe-path-breadcrumb__container">
+  <div #wrapper class="fe-path-breadcrumb__wrapper"
+    [style.transform]="'translateX('+ translateX +'px)'"
+    [class.fe-path-breadcrumb__wrapper--disable-animation]="panning"
+    (panend)="onWrapperPan($event);"
+    (panmove)="onWrapperPan($event);"
+    (panstart)="onWrapperPan($event);">
+    <ng-container *ngFor="let slice of slices;let index = index; let last = last; let first = first;">
+      <section class="fe-path-breadcrumb__section" (click)="onSliceClick(index);">
+        <a >{{ first ? '/' : slice }}</a>
+        <tcs-md-icon *ngIf="!last" class="fe-path-breadcrumb__arrow">arrow_right</tcs-md-icon>
+      </section>
+    </ng-container>
+  </div>
+</div>
+<div class="fe-path-breadcrumb__tarsus fe-path-breadcrumb__tarsus--left">
+  <tcs-md-icon class="fe-path-breadcrumb__tarsus__arrow"
+    [class.fe-path-breadcrumb__tarsus__arrow--visible]="translateX < 0">chevron_left</tcs-md-icon>
+</div>
+<div class="fe-path-breadcrumb__tarsus fe-path-breadcrumb__tarsus--right">
+  <tcs-md-icon class="fe-path-breadcrumb__tarsus__arrow"
+    [class.fe-path-breadcrumb__tarsus__arrow--visible]="translateX > getTranslateX()">chevron_right</tcs-md-icon>
+</div>

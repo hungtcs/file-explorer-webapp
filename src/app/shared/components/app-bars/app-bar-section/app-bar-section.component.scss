@@ -1,0 +1,23 @@
+@import "../../../../../styles/typography/typography";
+
+:host {
+  flex: 1 1 auto;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+
+  &.tcs-app-bar__section--align-left {
+    justify-content: flex-start;
+  }
+  &.tcs-app-bar__section--align-right {
+    justify-content: flex-end;
+  }
+}
+
+:host ::ng-deep {
+  .tcs-app-bar__title {
+    @extend %headline--6;
+    margin-left: 1.25rem;
+  }
+}
+

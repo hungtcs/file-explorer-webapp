@@ -1,0 +1,19 @@
+
+:host {
+  height: 56px;
+  display: flex;
+  padding: 8px 12px;
+  flex-flow: row nowrap;
+  box-sizing: border-box;
+  align-items: center;
+  background-color: #6200ee;
+  > h2 {
+    flex: 1 1 auto;
+    color: #FFF;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: .0125em;
+  }
+}

@@ -1,0 +1,9 @@
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  > fe-path-breadcrumb {
+    flex: 0 0 auto;
+  }
+}
