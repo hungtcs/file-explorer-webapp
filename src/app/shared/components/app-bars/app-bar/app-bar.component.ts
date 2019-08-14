@@ -1,18 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Themeable, Themes } from '../../themes/public_api';
+import { Component, Input, HostBinding, ElementRef } from '@angular/core';
+import { Convert2Boolean } from '../../../utils/public_api';
 
 @Component({
   host: {
     '[class.tcs-app-bar]': 'true',
   },
   selector: 'tcs-app-bar',
+  styleUrls: ['./app-bar.component.scss'],
   templateUrl: './app-bar.component.html',
-  styleUrls: ['./app-bar.component.scss']
 })
-export class AppBarComponent implements OnInit {
+export class AppBarComponent extends Themeable {
 
-  constructor() { }
+  @Input()
+  @Convert2Boolean()
+  @HostBinding('class.tcs-app-bar--raised')
+  public raised: boolean = true;
 
-  ngOnInit() {
+  constructor(
+      public readonly themes: Themes,
+      public readonly elementRef: ElementRef<HTMLElement>) {
+    super();
   }
 
 }

@@ -1,0 +1,28 @@
+@import "../utils/rem";
+
+%headline--6 {
+  font-size: 1.25rem;
+  letter-spacing: 0.15px;
+}
+
+%subtitle--1 {
+  font-size: px2rem(16px);
+  letter-spacing: 0.15px;
+}
+
+%body--1 {
+  font-size: px2rem(16px);
+  letter-spacing: 0.5px;
+}
+
+%button {
+  font-size: px2rem(14px);
+  font-family: Roboto, sans-serif;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+
+%caption {
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+}

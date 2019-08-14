@@ -1,0 +1,6 @@
+<div #content [@contentPresent]="contentPresent" class="tcs-popover__content"
+    [style.top.px]="top"
+    [style.right.px]="right"
+    (click)="onContentClick($event);">
+  <ng-content></ng-content>
+</div>

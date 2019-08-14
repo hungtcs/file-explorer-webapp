@@ -1,0 +1,27 @@
+
+:host {
+  display: block;
+}
+
+:host(.tcs-list--avatar) ::ng-deep {
+  > .tcs-list-item {
+    > .tcs-list-item__graphic {
+      width: 40px;
+      height: 40px;
+      margin: 0.5rem 1rem 0.5rem 0;
+    }
+  }
+}
+
+:host(.tcs-list--multiline) ::ng-deep {
+  > .tcs-list-item {
+    > .tcs-list-item__text {
+      > .tcs-list-item__primary-text {
+        align-items: flex-end;
+      }
+      > .tcs-list-item__secondary-text {
+        align-items: flex-end;
+      }
+    }
+  }
+}

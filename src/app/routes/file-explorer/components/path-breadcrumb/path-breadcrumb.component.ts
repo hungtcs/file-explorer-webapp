@@ -1,16 +1,16 @@
-import { Component, Input, ElementRef, ViewChild, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild, AfterViewInit, EventEmitter, Output, AfterViewChecked, NgZone, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'fe-path-breadcrumb',
   styleUrls: ['./path-breadcrumb.component.scss'],
   templateUrl: './path-breadcrumb.component.html',
 })
-export class PathBreadcrumbComponent implements AfterViewInit {
+export class PathBreadcrumbComponent implements AfterViewInit, AfterViewChecked {
   private _path: string;
   private _panStartTranslateX: number = null;
   public slices: Array<string>;
   public panning: boolean = false;
-  public translateX: number = 0;
+  public wrapperTranslate: number = 0;
 
   @ViewChild('wrapper', { read: ElementRef, static: true })
   public wrapper: ElementRef<HTMLDivElement>;
@@ -27,10 +27,14 @@ export class PathBreadcrumbComponent implements AfterViewInit {
   }
   set path(path: string) {
     this._path = path;
-    this.slices = ['', ...this.path.split('/').filter(slice => slice !== '')];
-    setTimeout(() => {
-      this.checkTranslateX();
-    });
+    this.panning = false;
+    if(this.path) {
+      this.slices = ['', ...this.path.split('/').filter(slice => slice !== '')];
+    }
+  }
+
+  get translateX() {
+    return this.containerWidth - this.wrapperWidth;
   }
 
   get wrapperWidth() {
@@ -41,33 +45,44 @@ export class PathBreadcrumbComponent implements AfterViewInit {
     return this.container.nativeElement.clientWidth;
   }
 
-  constructor() {
+
+  constructor(
+      private readonly ngZone: NgZone,
+      private readonly changeDetectorRef: ChangeDetectorRef) {
 
   }
 
   public ngAfterViewInit() {
-    window.getComputedStyle(this.wrapper.nativeElement).width;
-    setTimeout(() => {
-      this.checkTranslateX();
+
+  }
+
+  public ngAfterViewChecked() {
+    this.ngZone.runOutsideAngular(() => {
+      if(!this.panning) {
+        if(this.wrapperTranslate !== this.translateX) {
+          this.wrapperTranslate = this.translateX;
+          this.changeDetectorRef.detectChanges();
+        }
+      }
     });
   }
 
   public onWrapperPan(event: any) {
     if(event.type === 'pansend') {
-      this.panning = false;
+      // this.panning = false;
     } else if(event.type === 'panmove') {
       let translateX = this._panStartTranslateX + event.deltaX;
       if(translateX > 0) {
         translateX = 0;
-      } else if(translateX < this.getTranslateX()) {
-        translateX = this.getTranslateX();
+      } else if(translateX < this.translateX) {
+        translateX = this.translateX;
       }
-      this.translateX = translateX;
+      this.wrapperTranslate = translateX;
     } else if(event.type === 'panstart') {
       this.panning = true;
-      this._panStartTranslateX = this.translateX;
+      this._panStartTranslateX = this.wrapperTranslate;
     } else {
-      this.panning = false;
+      // this.panning = false;
     }
   }
 
@@ -78,17 +93,6 @@ export class PathBreadcrumbComponent implements AfterViewInit {
       const path = index === 0 ? '/' : this.slices.slice(0, index+1).join('/');
       this.sliceClick.emit(path);
     }
-  }
-
-  private checkTranslateX() {
-    const translateX = this.getTranslateX();
-    if(this.translateX !== translateX) {
-      this.translateX = translateX;
-    }
-  }
-
-  private getTranslateX() {
-    return this.containerWidth - this.wrapperWidth;
   }
 
 }

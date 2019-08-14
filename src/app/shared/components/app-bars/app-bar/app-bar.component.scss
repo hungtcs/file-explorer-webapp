@@ -1,9 +1,12 @@
 @import "../../../../../styles/elevation/elevation";
 
 :host {
-  color: #FFF;
+  color: var(--tcs-theme-reverse);;
   z-index: 4;
   display: block;
-  background-color: #6200ee;
+  background-color: var(--tcs-theme-primary);
+}
+
+:host(.tcs-app-bar--raised) {
   @include elevation(4);
 }

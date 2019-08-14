@@ -1,0 +1,55 @@
+@import "../../../../../styles/utils/rem";
+
+:host {
+  width: px2rem(40px);
+  height: px2rem(40px);
+  display: inline-block;
+  padding: px2rem(11px);
+  position: relative;
+  min-width: px2rem(40px);
+  min-height: px2rem(40px);
+  box-sizing: border-box;
+  > .tcs-checkbox__native-control {
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    padding: 0;
+    opacity: 0;
+    display: block;
+  }
+  > .tcs-checkbox__background {
+    top: px2rem(11px);
+    left: px2rem(11px);
+    right: px2rem(11px);
+    bottom: px2rem(11px);
+    position: absolute;
+    transition: background-color 100ms ease-in;
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--tcs-theme-primary);
+    border-radius: px2rem(2px);
+    > .tcs-checkbox__checkmark {
+      width: 100%;
+      color: var(--tcs-theme-reverse);
+      height: 100%;
+      opacity: 0;
+      transition: opacity 100ms ease-in;
+      > .tcs-checkbox__checkmark__path {
+        transition: stroke-dashoffset 250ms ease-in;
+        stroke-width: px2rem(3.12px);
+        stroke-dasharray: 29.7833385;
+        stroke-dashoffset: 29.7833385;
+      }
+    }
+  }
+  > .tcs-checkbox__native-control:checked + .tcs-checkbox__background {
+    border-color: var(--tcs-theme-primary);
+    background-color: var(--tcs-theme-primary);
+    > .tcs-checkbox__checkmark {
+      opacity: 1;
+      > .tcs-checkbox__checkmark__path {
+        stroke-dashoffset: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@import "../../../../../styles/utils/rem";
+@import "../../../../../styles/elevation/elevation";
+
+:host {
+  display: flex;
+  padding: 1rem;
+  flex-flow: column nowrap;
+  align-items: center;
+  border-radius: 4px;
+  background-color: #FFF;
+  @include elevation(24);
+  > tcs-svg-icon {
+    font-size: 50px;
+  }
+  > p {
+    color: rgba($color: #000000, $alpha: 0.54);
+    margin: 0;
+    font-size: px2rem(14px);
+    margin-top: 0.5rem;
+  }
+}

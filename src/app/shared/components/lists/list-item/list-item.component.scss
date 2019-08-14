@@ -1,0 +1,53 @@
+@import "../../../../../styles/utils/rem";
+@import "../../../../../styles/typography/typography";
+
+%primary-text {
+  @extend %subtitle--1;
+  font-weight: bold;
+}
+
+%secondary-text {
+  @extend %caption;
+  font-weight: normal;
+}
+
+:host {
+  display: flex;
+  padding: 0px 1rem;
+  flex-flow: row nowrap;
+  align-items: center;
+  ::ng-deep {
+    > .tcs-list-item__graphic {
+      flex: 0 0 auto;
+      margin: 1rem 2rem 1rem 0;
+    }
+    > .tcs-list-item__text {
+      @extend %primary-text;
+      flex: 1 1 auto;
+      margin: px2rem(12px) 0;
+      display: flex;
+      flex-flow: column nowrap;
+      margin-bottom: px2rem(12px);
+      justify-content: flex-start;
+      > .tcs-list-item__primary-text {
+        @extend %primary-text;
+        margin: 0;
+        height: px2rem(24px);
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+      }
+      > .tcs-list-item__secondary-text {
+        @extend %secondary-text;
+        margin: 0px;
+        height: px2rem(20px);
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+      }
+    }
+    > .tcs-list-item__meta {
+
+    }
+  }
+}

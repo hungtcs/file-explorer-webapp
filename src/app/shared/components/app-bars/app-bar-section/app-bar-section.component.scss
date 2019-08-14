@@ -17,6 +17,7 @@
 :host ::ng-deep {
   .tcs-app-bar__title {
     @extend %headline--6;
+    line-height: 2rem;
     margin-left: 1.25rem;
   }
 }

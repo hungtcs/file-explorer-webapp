@@ -1,0 +1,18 @@
+<header *ngIf="title">
+  <ng-container [ngSwitch]="richTitle">
+    <ng-container *ngSwitchCase="false">
+      <h2>{{ title }}</h2>
+    </ng-container>
+    <ng-container *ngSwitchCase="true" [ngTemplateOutlet]="title"></ng-container>
+  </ng-container>
+</header>
+<main>
+  <ng-container [ngSwitch]="richMessage">
+    <ng-container *ngSwitchCase="false">{{ message }}</ng-container>
+    <ng-container *ngSwitchCase="true" [ngTemplateOutlet]="message"></ng-container>
+  </ng-container>
+</main>
+<footer>
+  <tcs-button text (click)="buttonClick.emit(false);">{{ cancelButtonText }}</tcs-button>
+  <tcs-button text (click)="buttonClick.emit(true);">{{ okButtonText }}</tcs-button>
+</footer>

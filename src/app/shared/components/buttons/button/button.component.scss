@@ -1,0 +1,37 @@
+@import "../../../../../styles/utils/rem";
+@import "../../../../../styles/elevation/elevation";
+@import "../../../../../styles/typography/typography";
+
+:host {
+  @extend %button;
+  @include elevation(2);
+  color: var(--tcs-theme-reverse);
+  height: px2rem(36px);
+  outline: none;
+  display: inline-flex;
+  padding: 0 px2rem(16px);
+  overflow: hidden;
+  flex-flow: row nowrap;
+  min-width: px2rem(64px);
+  box-sizing: border-box;
+  user-select: none;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 4px;
+  vertical-align: middle;
+  justify-content: center;
+  background-color: var(--tcs-theme-primary);
+}
+
+:host(.tcs-button--text-button) {
+  @include elevation(0);
+  color: var(--tcs-theme-primary);
+  background-color: transparent;
+}
+
+:host(.tcs-button--outlined-button) {
+  @include elevation(0);
+  color: var(--tcs-theme-primary);
+  border: 1px solid var(--tcs-theme-primary);
+  background-color: transparent;
+}

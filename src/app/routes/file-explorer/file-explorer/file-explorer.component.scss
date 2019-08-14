@@ -1,0 +1,58 @@
+@import "../../../../styles/utils/rem";
+@import "../../../../styles/elevation/elevation";
+@import "../../../../styles/typography/typography";
+
+:host {
+  height: 100%;
+  display: flex;
+  position: relative;
+  flex-flow: column nowrap;
+  .top-section {
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    position: absolute;
+    &.top-section--raised {
+      @include elevation(4);
+      > fe-path-breadcrumb {
+        border-bottom: none;
+      }
+    }
+    &.top-section--top-animated {
+      transition: top 200ms;
+    }
+    .tcs-app-bar__check-all {
+      margin-left: px2rem(12px);
+    }
+    .tcs-app-bar__check-count {
+      @extend %headline--6;
+    }
+    // .tcs-app-bar--selection-toolbar {
+    //   > tcs-app-bar-row {
+    //     box-sizing: border-box;
+    //     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    //   }
+    // }
+  }
+  fe-path-breadcrumb {
+    flex: 0 0 auto;
+  }
+  > tcs-content {
+    padding-top: 56px + 33px;
+    &.tcs-content--bottom-bar {
+      padding-bottom: 56px;
+    }
+    .tcs-empty-placeholder {
+      height: 100%;
+    }
+  }
+  > .tcs-app-bar--bottom {
+    left: 0;
+    right: 0;
+    color: #6200EE;
+    bottom: 0;
+    position: absolute;
+    transform: translateY(100%);
+  }
+}

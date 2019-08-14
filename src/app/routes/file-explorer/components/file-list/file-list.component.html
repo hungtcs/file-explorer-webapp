@@ -1,12 +1,16 @@
 <ng-container *ngFor="let fileCarte of fileCartes;">
-  <section class="file-list__item" (click)="fileClick.emit(fileCarte);">
+  <section class="file-list__item" (tap)="onFileCarteTap(fileCarte);" (longPress)="onFileCarteLongPress(fileCarte, $event);">
+    <div [@checkboxStatus]="['select'].includes(mode) ? 'show' : 'hidden'" class="file-list__checkbox">
+      <!-- <input type="checkbox" [checked]="selectedFileCartes.includes(fileCarte)" /> -->
+      <tcs-checkbox [checked]="selectedFileCartes.includes(fileCarte)"></tcs-checkbox>
+    </div>
     <div class="file-list__icon">
       <tcs-svg-icon name="{{ getImageType(fileCarte) }}"></tcs-svg-icon>
     </div>
     <div class="file-list__content">
       <h2>{{ fileCarte.name }}</h2>
       <p>
-        <span class="file-list__mtime">{{ getFormattedString(fileCarte.stat.mtimeMs) }}</span>
+        <span class="file-list__mtime">{{ fileCarte.stat.mtimeMs | momentFormat: 'YYYY-MM-DD HH:mm' }}</span>
         <span *ngIf="fileCarte.directory" class="file-list__count">{{ fileCarte.filesCount }}个项目</span>
       </p>
     </div>

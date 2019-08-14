@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { FileExplorerComponent } from './file-explorer.component';
+import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 
 const routes: Routes = [
   {

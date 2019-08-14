@@ -1,0 +1,15 @@
+<header *ngIf="title">
+  <ng-container [ngSwitch]="richTitle">
+    <ng-container *ngSwitchCase="false">
+      <h2>{{ title }}</h2>
+    </ng-container>
+    <ng-container *ngSwitchCase="true" [ngTemplateOutlet]="title"></ng-container>
+  </ng-container>
+</header>
+<main>
+  <input #input="ngModel" type="text" name="value" [required]="required" [(ngModel)]="value" />
+</main>
+<footer>
+  <tcs-button text (click)="onButtonClick(false, input);">{{ cancelButtonText }}</tcs-button>
+  <tcs-button text (click)="onButtonClick(true, input);">{{ okButtonText }}</tcs-button>
+</footer>

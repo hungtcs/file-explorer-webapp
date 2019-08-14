@@ -1,6 +1,6 @@
 <div #container class="fe-path-breadcrumb__container">
   <div #wrapper class="fe-path-breadcrumb__wrapper"
-    [style.transform]="'translateX('+ translateX +'px)'"
+    [style.transform]="'translateX('+ wrapperTranslate +'px)'"
     [class.fe-path-breadcrumb__wrapper--disable-animation]="panning"
     (panend)="onWrapperPan($event);"
     (panmove)="onWrapperPan($event);"
@@ -15,9 +15,9 @@
 </div>
 <div class="fe-path-breadcrumb__tarsus fe-path-breadcrumb__tarsus--left">
   <tcs-md-icon class="fe-path-breadcrumb__tarsus__arrow"
-    [class.fe-path-breadcrumb__tarsus__arrow--visible]="translateX < 0">chevron_left</tcs-md-icon>
+    [class.fe-path-breadcrumb__tarsus__arrow--visible]="wrapperTranslate < 0">chevron_left</tcs-md-icon>
 </div>
 <div class="fe-path-breadcrumb__tarsus fe-path-breadcrumb__tarsus--right">
   <tcs-md-icon class="fe-path-breadcrumb__tarsus__arrow"
-    [class.fe-path-breadcrumb__tarsus__arrow--visible]="translateX > getTranslateX()">chevron_right</tcs-md-icon>
+    [class.fe-path-breadcrumb__tarsus__arrow--visible]="wrapperTranslate > translateX">chevron_right</tcs-md-icon>
 </div>

@@ -10,4 +10,6 @@ export class FileCarte {
   public symbolicLink: boolean;
   public symbolicLinkTarget?: string;
 
+  [key: string]: any;
+
 }

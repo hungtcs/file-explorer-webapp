@@ -1,0 +1,32 @@
+@import "../../../../../styles/utils/rem";
+@import "../../../../../styles/typography/typography";
+
+:host {
+  width: px2rem(280px);
+  display: flex;
+  flex-flow: column nowrap;
+  > main {
+    @extend %body--1;
+    flex: 1 1 auto;
+    padding: 1rem;
+  }
+  > header {
+    flex: 0 0 auto;
+    display: flex;
+    padding: 1.5rem 1rem 0rem 1rem;
+    flex-flow: row nowrap;
+    > h2 {
+      @extend %headline--6;
+      flex: 1 1 auto;
+      margin: 0;
+      font-weight: bold;
+    }
+  }
+  > footer {
+    flex: 0 0 auto;
+    padding: px2rem(8px);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+  }
+}
