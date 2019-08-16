@@ -30,5 +30,8 @@ export class FileExplorerService {
     return this.http.put(`/api/file-traversal/copy`, { sources, target });
   }
 
+  public moveFiles(sources: Array<string>, target: string) {
+    return this.http.put(`/api/file-traversal/move`, { sources, target });
+  }
 
 }

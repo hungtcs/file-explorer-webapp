@@ -1,12 +1,20 @@
 import { FileCarte } from '../models/file-carte';
-import { tap, mergeMap, delay, finalize } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FileExplorerService } from '../services/file-explorer.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DialogService, LoadingService, PopoverService, FILE_LIST_MODES } from '../../../shared/public_api';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DefaultMenuComponent } from '../components/default-menu/default-menu.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { tap, mergeMap, delay, finalize } from 'rxjs/operators';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { DialogService, LoadingService, PopoverService, FILE_LIST_MODES } from '../../../shared/public_api';
 
+/**
+ * 文件浏览器组件
+ *
+ * @author 鸿则<hungtcs@163.com>
+ * @export
+ * @class FileExplorerComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'fe-file-explorer',
   templateUrl: './file-explorer.component.html',
@@ -28,11 +36,11 @@ import { DefaultMenuComponent } from '../components/default-menu/default-menu.co
       ]),
     ]),
     trigger('bottomAppBar', [
-      state('hidden', style({
-        'transform': 'translateY(100%)',
-      })),
-      state('visible', style({
+      state('true', style({
         'transform': 'translateY(0%)',
+      })),
+      state('false', style({
+        'transform': 'translateY(100%)',
       })),
       transition('*<=>*', [
         animate('200ms'),
@@ -42,13 +50,57 @@ import { DefaultMenuComponent } from '../components/default-menu/default-menu.co
 })
 export class FileExplorerComponent implements OnInit {
   private menuPopover: any;
-  private copyOrMoveFiles: Array<FileCarte>;
 
+  /**
+   * 保存复制或者移动已经选中的文件
+   *
+   * @private
+   * @type {Array<FileCarte>}
+   * @memberof FileExplorerComponent
+   */
+  private chosenFileCartes: Array<FileCarte>;
+
+
+  /**
+   * 当前的文件夹对象
+   *
+   * @type {FileCarte}
+   * @memberof FileExplorerComponent
+   */
   public fileCarte: FileCarte;
+
+
+  /**
+   * 当前文件夹的路径
+   *
+   * @type {string}
+   * @memberof FileExplorerComponent
+   */
   public path: string;
+
+
+  /**
+   * 选择模式中实时选中的文件
+   *
+   * @type {Array<FileCarte>}
+   * @memberof FileExplorerComponent
+   */
   public selectedFileCartes: Array<FileCarte> = [];
 
+  /**
+   * 内容区域滚动的量
+   *
+   * @type {number}
+   * @memberof FileExplorerComponent
+   */
   public scrollCount: number = 0;
+
+  /**
+   * 页面上方部分向上的偏移量
+   *
+   * @type {number}
+   * @memberof FileExplorerComponent
+   */
   public topSectionTop: number = 0;
 
   public mode: FILE_LIST_MODES = 'default';
@@ -89,6 +141,15 @@ export class FileExplorerComponent implements OnInit {
       .subscribe();
   }
 
+
+  /**
+   * 内容区域滚动事件处理
+   *
+   * @author 鸿则<hungtcs@163.com>
+   * @param {Event} event
+   * @returns
+   * @memberof FileExplorerComponent
+   */
   public onContentScroll(event: Event) {
     if(this.mode === 'select') {
       return;
@@ -185,7 +246,7 @@ export class FileExplorerComponent implements OnInit {
 
   public onCopyButtonClick() {
     this.mode = 'copy';
-    this.copyOrMoveFiles = [...this.selectedFileCartes].map(fileCarte => {
+    this.chosenFileCartes = [...this.selectedFileCartes].map(fileCarte => {
       fileCarte.absolutePath = `${ this.path }/${ fileCarte.name }`;
       return fileCarte;
     });
@@ -197,7 +258,7 @@ export class FileExplorerComponent implements OnInit {
       message: '正在复制',
     });
     this.loadingService.show(loading);
-    this.fileExplorerService.copyFiles(this.copyOrMoveFiles.map(fileCarte => fileCarte.absolutePath), this.path)
+    this.fileExplorerService.copyFiles(this.chosenFileCartes.map(fileCarte => fileCarte.absolutePath), this.path)
       .pipe(mergeMap(() => this.fetchFiles(this.path)))
       .pipe(delay(500))
       .pipe(tap(() => this.mode = 'default'))
@@ -209,7 +270,37 @@ export class FileExplorerComponent implements OnInit {
 
   public onCopyCancelButtonClick() {
     this.mode = 'default';
-    this.copyOrMoveFiles = null;
+    this.chosenFileCartes = null;
+    this.selectedFileCartes = [];
+  }
+
+  public onMoveButtonClick() {
+    this.mode = 'move';
+    this.chosenFileCartes = [...this.selectedFileCartes].map(fileCarte => {
+      fileCarte.absolutePath = `${ this.path }/${ fileCarte.name }`;
+      return fileCarte;
+    });
+  }
+
+  public onMoveToTargetButtonClick() {
+    const loading = this.loadingService.create({
+      scrim: true,
+      message: '正在移动',
+    });
+    this.loadingService.show(loading);
+    this.fileExplorerService.moveFiles(this.chosenFileCartes.map(fileCarte => fileCarte.absolutePath), this.path)
+      .pipe(mergeMap(() => this.fetchFiles(this.path)))
+      .pipe(delay(500))
+      .pipe(tap(() => this.mode = 'default'))
+      .pipe(tap(() => this.selectedFileCartes = []))
+      .pipe(tap((data) => this.fileCarte = data))
+      .pipe(finalize(() => this.loadingService.hide(loading)))
+      .subscribe()
+  }
+
+  public onMoveCancelButtonClick() {
+    this.mode = 'default';
+    this.chosenFileCartes = null;
     this.selectedFileCartes = [];
   }
 

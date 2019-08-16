@@ -1,4 +1,7 @@
-<section class="top-section" [class.top-section--top-animated]="this.mode === 'select'" [class.top-section--raised]="scrollCount !== -topSectionTop" [style.top.px]="topSectionTop">
+<section class="top-section"
+    [class.top-section--top-animated]="this.mode === 'select'"
+    [class.top-section--raised]="scrollCount !== -topSectionTop"
+    [style.top.px]="topSectionTop">
   <tcs-app-bar [raised]="false">
     <tcs-app-bar-row>
       <tcs-app-bar-section align="left">
@@ -6,7 +9,7 @@
       </tcs-app-bar-section>
       <tcs-app-bar-section align="right">
         <tcs-icon-button (click)="openMenuPopover($event);">more_vert</tcs-icon-button>
-        <tcs-icon-button (click)="openCreateFolderPrompt($event);">create_new_folder</tcs-icon-button>
+        <tcs-icon-button (click)="openCreateFolderPrompt();">create_new_folder</tcs-icon-button>
       </tcs-app-bar-section>
     </tcs-app-bar-row>
   </tcs-app-bar>
@@ -20,24 +23,29 @@
   </tcs-app-bar>
   <fe-path-breadcrumb [path]="path" (sliceClick)="onBreadcrumbSliceClick($event);"></fe-path-breadcrumb>
 </section>
+
 <tcs-content [class.tcs-content--bottom-bar]="this.mode === 'select'" (scroll)="onContentScroll($event);">
   <fe-file-list
     [(mode)]="mode"
-    (selectModeChange)="topSectionTop = 0;"
+    (modeChange)="topSectionTop = 0;"
     [(selectedFileCartes)]="selectedFileCartes"
     [fileCartes]="fileCarte?.files"
     (fileCarteTap)="onFileCarteTap($event);">
   </fe-file-list>
   <tcs-empty-placeholder *ngIf="fileCarte?.files.length < 1"></tcs-empty-placeholder>
 </tcs-content>
-<tcs-app-bar [@bottomAppBar]="mode !== 'default' ? 'visible': 'hidden'" [raised]="this.mode === 'select'" tcs-theme="light" class="tcs-app-bar--bottom">
-  <tcs-app-bar-row *ngIf="mode === 'select'">
+
+<tcs-app-bar [@bottomAppBar]="mode === 'select'" [raised]="this.mode === 'select'" tcs-theme="light" class="tcs-app-bar--bottom">
+  <tcs-app-bar-row>
     <tcs-app-bar-section align="left">
-      <tcs-icon-button outlined (click)="onDeleteButtonClick($event);">delete_outline</tcs-icon-button>
+      <tcs-icon-button outlined (click)="onDeleteButtonClick();">delete_outline</tcs-icon-button>
       <tcs-icon-button outlined (click)="onCopyButtonClick();">file_copy</tcs-icon-button>
+      <tcs-icon-button outlined (click)="onMoveButtonClick();">move_to_inbox</tcs-icon-button>
     </tcs-app-bar-section>
   </tcs-app-bar-row>
-  <tcs-app-bar-row *ngIf="mode === 'copy'">
+</tcs-app-bar>
+<tcs-app-bar [@bottomAppBar]="mode === 'copy'" [raised]="this.mode === 'copy'" tcs-theme="light" class="tcs-app-bar--bottom">
+  <tcs-app-bar-row>
     <tcs-app-bar-section align="left">
       <tcs-icon-button outlined>file_copy</tcs-icon-button>
       <span>{{ selectedFileCartes.length }}项</span>
@@ -45,6 +53,18 @@
     <tcs-app-bar-section align="right">
       <tcs-button text (click)="onCopyCancelButtonClick();">取消</tcs-button>
       <tcs-button text (click)="onCopyToTargetButtonClick();">复制到此处</tcs-button>
+    </tcs-app-bar-section>
+  </tcs-app-bar-row>
+</tcs-app-bar>
+<tcs-app-bar [@bottomAppBar]="mode === 'move'" [raised]="this.mode === 'move'" tcs-theme="light" class="tcs-app-bar--bottom">
+  <tcs-app-bar-row>
+    <tcs-app-bar-section align="left">
+      <tcs-icon-button outlined>file_copy</tcs-icon-button>
+      <span>{{ selectedFileCartes.length }}项</span>
+    </tcs-app-bar-section>
+    <tcs-app-bar-section align="right">
+      <tcs-button text (click)="onMoveCancelButtonClick();">取消</tcs-button>
+      <tcs-button text (click)="onMoveToTargetButtonClick();">移动到此处</tcs-button>
     </tcs-app-bar-section>
   </tcs-app-bar-row>
 </tcs-app-bar>

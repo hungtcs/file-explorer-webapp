@@ -22,12 +22,15 @@
     left: px2rem(11px);
     right: px2rem(11px);
     bottom: px2rem(11px);
+    display: flex;
     position: absolute;
     transition: background-color 100ms ease-in;
+    align-items: center;
     border-width: 2px;
     border-style: solid;
     border-color: var(--tcs-theme-primary);
     border-radius: px2rem(2px);
+    justify-content: center;
     > .tcs-checkbox__checkmark {
       width: 100%;
       color: var(--tcs-theme-reverse);
