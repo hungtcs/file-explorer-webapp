@@ -1,0 +1,13 @@
+<h2>Remote File Explorer</h2>
+
+<form #form="ngForm" [formGroup]="formGroup" (ngSubmit)="onFormSubmit();">
+  <div>
+    <tcs-input formControlName="username"></tcs-input>
+  </div>
+  <div>
+    <tcs-input password formControlName="password"></tcs-input>
+  </div>
+  <div>
+    <tcs-button type="submit" (click)="form.ngSubmit.emit();">登录</tcs-button>
+  </div>
+</form>

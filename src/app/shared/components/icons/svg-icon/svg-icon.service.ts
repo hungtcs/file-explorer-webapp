@@ -16,7 +16,7 @@ export class SvgIconService {
     if(this.svgCache.get(name)) {
       return of(this.svgCache.get(name).cloneNode(true));
     } else {
-      return this.http.get(`/assets/icons/${ name }.svg`, { responseType: 'text' })
+      return this.http.get(`/assets/icons/${ name }.svg`, { responseType: 'text', params: { 'non_jwt_verification': 'true' } })
         .pipe(map(svgSource => new DOMParser().parseFromString(svgSource, 'image/svg+xml')))
         .pipe(map(document => document.querySelector('svg')))
         .pipe(tap(svgElement => this.svgCache.set(name, svgElement)));

@@ -1,0 +1,27 @@
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  > h2 {
+    flex: 1 1 20%;
+    margin: 0 0 3rem 0;
+    display: flex;
+    text-align: center;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  > form {
+    flex: 1 1 80%;
+    margin: 0 3rem;
+    div {
+      margin-bottom: 1rem;
+      > tcs-input {
+        width: 100%;
+      }
+      > tcs-button {
+        display: flex;
+      }
+    }
+  }
+}

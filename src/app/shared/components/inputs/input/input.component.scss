@@ -1,0 +1,17 @@
+
+:host {
+  height: 2rem;
+  border: 1px solid lightgray;
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 4px;
+  > input {
+    flex: 1 1 auto;
+    width: 100%;
+    display: block;
+
+    border: none;
+    padding: 0;
+    outline: none;
+  }
+}

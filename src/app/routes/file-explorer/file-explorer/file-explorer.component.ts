@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileExplorerService } from '../services/file-explorer.service';
 import { DefaultMenuComponent } from '../components/default-menu/default-menu.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap, mergeMap, delay, finalize } from 'rxjs/operators';
+import { tap, mergeMap, delay, finalize, catchError, take } from 'rxjs/operators';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DialogService, LoadingService, PopoverService, FILE_LIST_MODES } from '../../../shared/public_api';
 
@@ -128,16 +128,18 @@ export class FileExplorerComponent implements OnInit {
     this.activatedRoute.paramMap
       .pipe(tap(() => this.loadingService.show(loading)))
       .pipe(tap(paramMap => this.path = paramMap.get('path')))
-      .pipe(mergeMap(() => this.fetchFiles(this.path)))
-      .pipe(delay(500))
-      .pipe(tap(() => {
-        if(this.mode === 'select') {
-          this.mode = 'default';
-        }
+      .pipe(mergeMap(() => {
+        return this.fetchFiles(this.path)
+          .pipe(delay(500))
+          .pipe(tap(() => {
+            if(this.mode === 'select') {
+              this.mode = 'default';
+            }
+          }))
+          .pipe(tap(() => this.selectedFileCartes = []))
+          .pipe(tap((data) => this.fileCarte = data))
+          .pipe(finalize(() => this.loadingService.hide(loading)));
       }))
-      .pipe(tap(() => this.selectedFileCartes = []))
-      .pipe(tap((data) => this.fileCarte = data))
-      .pipe(tap(() => this.loadingService.hide(loading)))
       .subscribe();
   }
 
@@ -336,6 +338,5 @@ export class FileExplorerComponent implements OnInit {
         }
         return data;
       }));
-  }
-
+    }
 }

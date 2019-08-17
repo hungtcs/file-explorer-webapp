@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
+import { HomeFolderGuard } from './guards/home-folder.guard';
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: encodeURIComponent('/home/hungtcs'),
+    canActivate: [HomeFolderGuard],
   },
   {
     path: ':path',

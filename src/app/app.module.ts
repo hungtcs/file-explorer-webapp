@@ -3,8 +3,9 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { RoutesModule } from './routes/routes.module';
 import { ThemesModule } from './shared/public_api';
-import { HttpClientModule } from '@angular/common/http';
+import { JWTTokenInterceptor } from './intercepts/jwt-token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -26,7 +27,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       },
     }),
   ],
-  providers: [],
+  providers: [
+    {
+      multi: true,
+      provide: HTTP_INTERCEPTORS,
+      useClass: JWTTokenInterceptor,
+    },
+  ],
   bootstrap: [
     AppComponent,
   ],
