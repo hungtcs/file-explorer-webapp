@@ -1,9 +1,10 @@
+import { join } from 'path';
 import { FileCarte } from '../models/file-carte';
 import { Component, OnInit } from '@angular/core';
 import { FileExplorerService } from '../services/file-explorer.service';
 import { DefaultMenuComponent } from '../components/default-menu/default-menu.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap, mergeMap, delay, finalize, catchError, take } from 'rxjs/operators';
+import { tap, mergeMap, delay, finalize } from 'rxjs/operators';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DialogService, LoadingService, PopoverService, FILE_LIST_MODES } from '../../../shared/public_api';
 
@@ -190,7 +191,7 @@ export class FileExplorerComponent implements OnInit {
     } else if(fileCarte.name.endsWith('.mp4')) {
       window.open(`/api/video-stream/${ encodeURIComponent(`${ this.path }/${ fileCarte.name }`) }`);
     } else {
-      window.open(`/api/file-traversal/download/${ encodeURIComponent(`${ this.path }/${ fileCarte.name }`) }`);
+      window.open(`/api/file-traversal/file/${ encodeURIComponent(`${ this.path }/${ fileCarte.name }`) }`);
     }
   }
 
@@ -220,7 +221,7 @@ export class FileExplorerComponent implements OnInit {
             message: '正在创建文件夹',
           });
           this.loadingService.show(loading);
-          this.fileExplorerService.createFile(`${ this.path }/${ data }`, 'folder')
+          this.fileExplorerService.createFile(join(this.path, data), 'folder')
             .pipe(mergeMap(() => this.fetchFiles(this.path)))
             .pipe(delay(500))
             .pipe(tap(() => this.mode = this.mode === 'select' ? 'default' : this.mode))
@@ -240,7 +241,7 @@ export class FileExplorerComponent implements OnInit {
     }).pipe(tap((answer) => console.log(answer)))
       .pipe(tap((answer) => {
         if(answer) {
-          this.deleteFiles(this.selectedFileCartes.map(fileCarte => `${ this.path }/${ fileCarte.name }`));
+          this.deleteFiles(this.selectedFileCartes.map(fileCarte => join(this.path, fileCarte.name)));
         }
       }))
       .subscribe();
@@ -249,7 +250,7 @@ export class FileExplorerComponent implements OnInit {
   public onCopyButtonClick() {
     this.mode = 'copy';
     this.chosenFileCartes = [...this.selectedFileCartes].map(fileCarte => {
-      fileCarte.absolutePath = `${ this.path }/${ fileCarte.name }`;
+      fileCarte.absolutePath = join(this.path, fileCarte.name);
       return fileCarte;
     });
   }

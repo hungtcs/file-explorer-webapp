@@ -7,7 +7,6 @@ import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { PathBreadcrumbComponent } from './components/path-breadcrumb/path-breadcrumb.component';
 import { FileExplorerRoutingModule } from './file-explorer-routing.module';
 import { DefaultMenuComponent } from './components/default-menu/default-menu.component';
-import { HomeFolderGuard } from './guards/home-folder.guard';
 
 @NgModule({
   imports: [
@@ -16,7 +15,6 @@ import { HomeFolderGuard } from './guards/home-folder.guard';
     FileExplorerRoutingModule,
   ],
   providers: [
-    HomeFolderGuard,
     FileExplorerService,
   ],
   declarations: [
