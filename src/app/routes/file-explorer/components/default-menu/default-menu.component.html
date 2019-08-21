@@ -1,10 +1,11 @@
 <tcs-list>
-  <tcs-list-item>
-    <tcs-md-icon outlined class="tcs-list-item__graphic">cloud_upload</tcs-md-icon>
-    上传文件
+  <tcs-list-item (click)="fileExplorerComponent.hideMenuPopover(); onUploadFileClick();">
+    <tcs-md-icon outlined class="tcs-list-item__graphic">cloud_upload</tcs-md-icon>上传文件
   </tcs-list-item>
-  <tcs-list-item>
-    <tcs-md-icon outlined class="tcs-list-item__graphic">create_new_folder</tcs-md-icon>
-    新建文件夹
+  <tcs-list-item (click)="fileExplorerComponent.hideMenuPopover(); fileExplorerComponent.openCreateFolderPrompt();">
+    <tcs-md-icon outlined class="tcs-list-item__graphic">create_new_folder</tcs-md-icon>新建文件夹
+  </tcs-list-item>
+  <tcs-list-item (click)="fileExplorerComponent.hideMenuPopover();">
+    <tcs-md-icon outlined class="tcs-list-item__graphic">refresh</tcs-md-icon>刷新
   </tcs-list-item>
 </tcs-list>

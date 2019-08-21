@@ -30,8 +30,8 @@ export class ScrimService {
   }
 
   public hide() {
+    this.componentRef.instance.visible = false;
     if(--this.refCount === 0) {
-      this.componentRef.instance.visible = false;
     }
   }
 

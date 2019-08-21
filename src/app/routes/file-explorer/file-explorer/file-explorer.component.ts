@@ -1,12 +1,13 @@
 import { join } from 'path';
 import { FileCarte } from '../models/file-carte';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { FileExplorerService } from '../services/file-explorer.service';
 import { DefaultMenuComponent } from '../components/default-menu/default-menu.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap, mergeMap, delay, finalize } from 'rxjs/operators';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { tap, mergeMap, delay, finalize, map } from 'rxjs/operators';
 import { DialogService, LoadingService, PopoverService, FILE_LIST_MODES } from '../../../shared/public_api';
+import { selectionToolbarAnimation, bottomAppBarAnimations } from '../animations';
+import { DrawerWrapperComponent } from '../../drawer-wrapper/drawer-wrapper.component';
 
 /**
  * 文件浏览器组件
@@ -18,36 +19,12 @@ import { DialogService, LoadingService, PopoverService, FILE_LIST_MODES } from '
  */
 @Component({
   selector: 'fe-file-explorer',
-  templateUrl: './file-explorer.component.html',
   styleUrls: ['./file-explorer.component.scss'],
   animations: [
-    trigger('selectionToolbar', [
-      state('true', style({
-        top: '0px',
-        width: '100%',
-        position: 'absolute',
-      })),
-      state('false', style({
-        top: '-56px',
-        width: '100%',
-        position: 'absolute',
-      })),
-      transition('false <=> true', [
-        animate('200ms'),
-      ]),
-    ]),
-    trigger('bottomAppBar', [
-      state('true', style({
-        'transform': 'translateY(0%)',
-      })),
-      state('false', style({
-        'transform': 'translateY(100%)',
-      })),
-      transition('*<=>*', [
-        animate('200ms'),
-      ]),
-    ]),
-  ]
+    bottomAppBarAnimations,
+    selectionToolbarAnimation,
+  ],
+  templateUrl: './file-explorer.component.html',
 })
 export class FileExplorerComponent implements OnInit {
   private menuPopover: any;
@@ -104,10 +81,22 @@ export class FileExplorerComponent implements OnInit {
    */
   public topSectionTop: number = 0;
 
+
+  /**
+   * 表示当前文件管理器的模式
+   *
+   * @type {FILE_LIST_MODES}
+   * @memberof FileExplorerComponent
+   */
   public mode: FILE_LIST_MODES = 'default';
+
+  get drawerWrapperComponent() {
+    return this.injector.get(DrawerWrapperComponent);
+  }
 
   constructor(
       private readonly router: Router,
+      private readonly injector: Injector,
       private readonly dialogService: DialogService,
       private readonly activatedRoute: ActivatedRoute,
       private readonly loadingService: LoadingService,
@@ -122,8 +111,10 @@ export class FileExplorerComponent implements OnInit {
       recluse: true,
       present: false,
       component: DefaultMenuComponent,
+      componentAttrs: {
+        fileExplorerComponent: this,
+      },
     });
-
 
     const loading = this.loadingService.create({ message: '正在读取文件列表' });
     this.activatedRoute.paramMap
@@ -144,6 +135,9 @@ export class FileExplorerComponent implements OnInit {
       .subscribe();
   }
 
+  public hideMenuPopover() {
+    this.popoverService.hide(this.menuPopover);
+  }
 
   /**
    * 内容区域滚动事件处理
@@ -191,11 +185,24 @@ export class FileExplorerComponent implements OnInit {
     } else if(fileCarte.name.endsWith('.mp4')) {
       window.open(`/api/video-stream/${ encodeURIComponent(`${ this.path }/${ fileCarte.name }`) }`);
     } else {
-      window.open(`/api/file-traversal/file/${ encodeURIComponent(`${ this.path }/${ fileCarte.name }`) }`);
+      this.fileExplorerService.downloadFile(join(this.path, fileCarte.name))
+        .pipe(map(response => URL.createObjectURL(response)))
+        .pipe(tap(url => console.log(url)))
+        .pipe(tap(url => {
+          const ale = document.createElement('a');
+          ale.setAttribute('href', url);
+          ale.setAttribute('download', fileCarte.name);
+          ale.click();
+        }))
+        .pipe(tap(url => URL.revokeObjectURL(url)))
+        .subscribe();
     }
   }
 
   public onCheckAllChange(checked: boolean) {
+    if(this.mode !== 'select') {
+      return;
+    }
     if(checked) {
       this.selectedFileCartes = [...this.fileCarte.files];
     } else {
@@ -255,7 +262,14 @@ export class FileExplorerComponent implements OnInit {
     });
   }
 
+  /**
+   * 确认执行复制操作
+   *
+   * @author 鸿则<hungtcs@163.com>
+   * @memberof FileExplorerComponent
+   */
   public onCopyToTargetButtonClick() {
+    // TODO: 检查文件名称冲突
     const loading = this.loadingService.create({
       scrim: true,
       message: '正在复制',
@@ -307,6 +321,29 @@ export class FileExplorerComponent implements OnInit {
     this.selectedFileCartes = [];
   }
 
+  public onUploadFile() {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('multiple', 'multiple');
+    input.addEventListener('change', () => {
+      this.popoverService.hide(this.menuPopover);
+      const loading = this.loadingService.create({
+        scrim: true,
+        message: '正在上传',
+      });
+      this.loadingService.show(loading);
+      this.fileExplorerService.uploadFiles(input.files, this.path)
+        .pipe(mergeMap(() => this.fetchFiles(this.path)))
+        .pipe(delay(500))
+        .pipe(tap(() => this.mode = 'default'))
+        .pipe(tap(() => this.selectedFileCartes = []))
+        .pipe(tap((data) => this.fileCarte = data))
+        .pipe(finalize(() => this.loadingService.hide(loading)))
+        .subscribe();
+    });
+    input.click();
+  }
+
   private deleteFiles(files: Array<string>) {
     const loading = this.loadingService.create({
       scrim: true,
@@ -339,5 +376,5 @@ export class FileExplorerComponent implements OnInit {
         }
         return data;
       }));
-    }
+  }
 }

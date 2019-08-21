@@ -21,20 +21,29 @@ export class JWTTokenInterceptor implements HttpInterceptor {
       return handler.handle(request);
     }
     let next: Observable<HttpEvent<any>>;
-    const token = this.localStorageService.getItem<string>('token');
-    const payload = jwtDecode<any>(token);
-    if(new Date(0).setUTCSeconds(payload.exp) < Date.now()) {
+    let token: string;
+    let payload: any;
+    try {
+      token = this.localStorageService.getItem<string>('token');
+      payload = jwtDecode<any>(token);
+      if(new Date(0).setUTCSeconds(payload.exp) < Date.now()) {
+        next = throwError(new HttpErrorResponse({
+          status: UNAUTHORIZED,
+          statusText: 'UNAUTHORIZED',
+        }));
+      } else {
+        const newRequest = request.clone({
+          setHeaders: {
+            Authorization: `Bearer ${ token }`,
+          },
+        });
+        next = handler.handle(newRequest);
+      }
+    } catch(err) {
       next = throwError(new HttpErrorResponse({
         status: UNAUTHORIZED,
         statusText: 'UNAUTHORIZED',
       }));
-    } else {
-      const newRequest = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${ token }`,
-        },
-      });
-      next = handler.handle(newRequest);
     }
     return next.pipe(catchError((err) => {
       if(err instanceof HttpErrorResponse) {

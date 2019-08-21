@@ -5,19 +5,19 @@
   <tcs-app-bar [raised]="false">
     <tcs-app-bar-row>
       <tcs-app-bar-section align="left">
-        <tcs-icon-button>menu</tcs-icon-button>
+        <tcs-icon-button (click)="drawerWrapperComponent.drawer.visible = !drawerWrapperComponent.drawer.visible">menu</tcs-icon-button>
         <span class="tcs-app-bar__title">文件</span>
       </tcs-app-bar-section>
       <tcs-app-bar-section align="right">
         <tcs-icon-button (click)="openMenuPopover($event);">more_vert</tcs-icon-button>
-        <tcs-icon-button (click)="openCreateFolderPrompt();">create_new_folder</tcs-icon-button>
+        <!-- <tcs-icon-button (click)="openCreateFolderPrompt();">create_new_folder</tcs-icon-button> -->
       </tcs-app-bar-section>
     </tcs-app-bar-row>
   </tcs-app-bar>
   <tcs-app-bar tcs-theme="light" class="tcs-app-bar--selection-toolbar" [@selectionToolbar]="this.mode === 'select'" [raised]="false">
     <tcs-app-bar-row>
       <tcs-app-bar-section align="left">
-        <tcs-checkbox class="tcs-app-bar__check-all" (checkedChange)="onCheckAllChange($event);"></tcs-checkbox>
+        <tcs-checkbox class="tcs-app-bar__check-all" [checked]="selectedFileCartes.length === fileCarte?.files?.length" (checkedChange)="onCheckAllChange($event);"></tcs-checkbox>
         <span class="tcs-app-bar__check-count">已选{{ selectedFileCartes.length }}项</span>
       </tcs-app-bar-section>
     </tcs-app-bar-row>
@@ -33,15 +33,19 @@
     [fileCartes]="fileCarte?.files"
     (fileCarteTap)="onFileCarteTap($event);">
   </fe-file-list>
-  <tcs-empty-placeholder *ngIf="fileCarte?.files.length < 1"></tcs-empty-placeholder>
+  <tcs-empty-placeholder *ngIf="fileCarte?.files?.length < 1"></tcs-empty-placeholder>
 </tcs-content>
 
 <tcs-app-bar [@bottomAppBar]="mode === 'select'" [raised]="this.mode === 'select'" tcs-theme="light" class="tcs-app-bar--bottom">
   <tcs-app-bar-row>
     <tcs-app-bar-section align="left">
-      <tcs-icon-button outlined (click)="onDeleteButtonClick();">delete_outline</tcs-icon-button>
       <tcs-icon-button outlined (click)="onCopyButtonClick();">file_copy</tcs-icon-button>
-      <tcs-icon-button outlined (click)="onMoveButtonClick();">move_to_inbox</tcs-icon-button>
+      <tcs-icon-button svg="folder-move" (click)="onMoveButtonClick();">move_to_inbox</tcs-icon-button>
+      <tcs-icon-button outlined (click)="onDeleteButtonClick();">delete_outline</tcs-icon-button>
+      <tcs-icon-button outlined>info</tcs-icon-button>
+    </tcs-app-bar-section>
+    <tcs-app-bar-section align="right">
+      <tcs-button text (click)="mode='default'; selectedFileCartes=[];">取消</tcs-button>
     </tcs-app-bar-section>
   </tcs-app-bar-row>
 </tcs-app-bar>

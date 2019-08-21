@@ -12,6 +12,7 @@
       <p>
         <span class="file-list__mtime">{{ fileCarte.stat.mtimeMs | momentFormat: 'YYYY-MM-DD HH:mm' }}</span>
         <span *ngIf="fileCarte.directory" class="file-list__count">{{ fileCarte.filesCount }}个项目</span>
+        <span *ngIf="fileCarte.file" class="file-list__count">{{ fileCarte.stat.size | humanReadableFileSize }}</span>
       </p>
     </div>
   </section>

@@ -1,10 +1,22 @@
-import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { routesAnimation } from './animations/routes-animation';
+import { Component, ViewChild, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'fe-root',
-  template: `<router-outlet></router-outlet>`,
-  styleUrls: ['./app.component.scss']
+  template: `<router-outlet #outlet></router-outlet>`,
+  styleUrls: ['./app.component.scss'],
+  animations: [ routesAnimation ],
 })
 export class AppComponent {
-  title = 'file-explorer-webapp';
+
+  @ViewChild('outlet', { read: RouterOutlet, static: true })
+  public outlet: RouterOutlet;
+
+  @HostBinding('@routesAnimation')
+  get prepareRoute() {
+    return this.outlet && this.outlet.activatedRouteData && this.outlet.activatedRouteData['animation'];
+  }
+
+
 }

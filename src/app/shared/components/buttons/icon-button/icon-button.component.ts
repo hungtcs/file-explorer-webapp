@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { Convert2Boolean } from '../../../utils/public_api';
 
 @Component({
@@ -7,6 +7,9 @@ import { Convert2Boolean } from '../../../utils/public_api';
   templateUrl: './icon-button.component.html',
 })
 export class IconButtonComponent implements OnInit {
+
+  @Input()
+  public svg: string;
 
   @Input()
   @Convert2Boolean()
@@ -23,6 +26,11 @@ export class IconButtonComponent implements OnInit {
   @Input()
   @Convert2Boolean()
   public twoTone: boolean;
+
+  @HostBinding('class.tcs-icon-button--svg')
+  get svgIcon() {
+    return !!this.svg;
+  }
 
   constructor() { }
 

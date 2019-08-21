@@ -1,0 +1,26 @@
+@import "../../../../../styles/elevation/elevation";
+
+:host {
+  z-index: 16;
+  display: none;
+  position: absolute;
+  background: transparent;
+  // background: chocolate;
+  transition: transform 200ms ease-in, background 0s 200ms;
+}
+
+:host(.tcs-drawer--position-left) {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100vh;
+  transform: translateX(calc(-100% + 8px));
+  box-sizing: border-box;
+  padding-right: 8px;
+  &.tcs-drawer--visible {
+    @include elevation(16);
+    background: #FFFFFF;
+    transform: translateX(0);
+    transition: transform 200ms ease-in;
+  }
+}

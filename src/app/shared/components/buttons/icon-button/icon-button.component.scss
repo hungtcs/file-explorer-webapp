@@ -2,6 +2,11 @@
 :host {
   cursor: pointer;
   padding: 12px;
+  outline: none;
   display: inline-flex;
   -webkit-tap-highlight-color: transparent;
+}
+
+:host(.tcs-icon-button--svg) {
+  font-size: 24px;
 }

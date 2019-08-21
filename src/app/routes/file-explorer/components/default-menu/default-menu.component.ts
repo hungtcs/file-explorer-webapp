@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FileExplorerComponent } from '../../file-explorer/file-explorer.component';
 
 @Component({
   selector: 'fe-default-menu',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./default-menu.component.scss']
 })
 export class DefaultMenuComponent implements OnInit {
+  public fileExplorerComponent: FileExplorerComponent;
 
-  constructor() { }
+  constructor() {
 
-  ngOnInit() {
+  }
+
+  public ngOnInit() {
+
+  }
+
+  public onUploadFileClick() {
+    this.fileExplorerComponent.onUploadFile();
   }
 
 }

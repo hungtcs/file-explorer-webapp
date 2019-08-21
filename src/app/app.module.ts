@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { RoutesModule } from './routes/routes.module';
 import { ThemesModule } from './shared/public_api';
 import { JWTTokenInterceptor } from './intercepts/jwt-token.interceptor';
+import { CSRFTokenInterceptor } from './intercepts/csrf-token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -33,6 +34,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
       provide: HTTP_INTERCEPTORS,
       useClass: JWTTokenInterceptor,
     },
+    // {
+    //   multi: true,
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: CSRFTokenInterceptor,
+    // },
   ],
   bootstrap: [
     AppComponent,

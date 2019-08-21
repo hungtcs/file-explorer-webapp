@@ -1,4 +1,9 @@
-<tcs-md-icon [outlined]="outlined" [round]="round" [sharp]="sharp" [twoTone]="twoTone">
-  <ng-content></ng-content>
-</tcs-md-icon>
+<ng-container *ngIf="!svgIcon">
+  <tcs-md-icon [outlined]="outlined" [round]="round" [sharp]="sharp" [twoTone]="twoTone">
+    <ng-content></ng-content>
+  </tcs-md-icon>
+</ng-container>
 
+<ng-container *ngIf="svgIcon">
+  <tcs-svg-icon [name]="svg"></tcs-svg-icon>
+</ng-container>

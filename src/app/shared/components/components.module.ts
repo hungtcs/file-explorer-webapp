@@ -14,6 +14,7 @@ import { LoadingsModule } from './loadings/public_api';
 import { CheckboxsModule } from './checkboxs/public_api';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ContentComponent } from './content/content.component';
+import { DrawersModule } from './drawers/public_api';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { ContentComponent } from './content/content.component';
     AppBarsModule,
     ButtonsModule,
     DialogsModule,
+    DrawersModule,
     LoadingsModule,
     PopoversModule,
     CheckboxsModule,
@@ -41,6 +43,7 @@ import { ContentComponent } from './content/content.component';
     AppBarsModule,
     ButtonsModule,
     DialogsModule,
+    DrawersModule,
     PopoversModule,
     LoadingsModule,
     CheckboxsModule,
