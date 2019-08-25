@@ -16,7 +16,7 @@ export const popAnimation = [
         'transform': 'translateY(0)',
       }),
       animate('200ms ease-out', style({
-        'opacity': 0.8,
+        'opacity': 0,
         'transform': 'translateY(20%)',
       })),
     ], { optional: true }),
@@ -44,7 +44,7 @@ export const pushAnimation = [
   group([
     query(':enter', [
       style({
-        'opacity': 0.5,
+        'opacity': 0,
         'z-index': 1000,
         'transform': 'translateY(20%)',
       }),
@@ -61,7 +61,7 @@ export const pushAnimation = [
       }),
       animate('200ms ease-out', style({
         'opacity': 0.5,
-        'transform': 'translateY(-10%)',
+        'transform': 'translateY(0%)',
       })),
     ], { optional: true }),
   ]),

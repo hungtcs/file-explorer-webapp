@@ -5,7 +5,6 @@
   display: none;
   position: absolute;
   background: transparent;
-  // background: chocolate;
   transition: transform 200ms ease-in, background 0s 200ms;
 }
 
@@ -14,9 +13,8 @@
   left: 0;
   bottom: 0;
   height: 100vh;
-  transform: translateX(calc(-100% + 8px));
+  transform: translateX(calc(-100%));
   box-sizing: border-box;
-  padding-right: 8px;
   &.tcs-drawer--visible {
     @include elevation(16);
     background: #FFFFFF;

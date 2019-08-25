@@ -12,7 +12,7 @@ import { LoadingComponent } from './loading/loading.component';
     PopoversModule,
   ],
   exports: [
-
+    LoadingComponent,
   ],
   providers: [
     LoadingService,
